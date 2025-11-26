@@ -1,0 +1,103 @@
+// prisma/schema.prisma
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// 1. User (계정 정보)
+model User {
+  userId       Int       @id @default(autoincrement()) @map("user_id")
+  name         String    @db.VarChar(50)
+  nickname     String?   @default("nickname") @db.VarChar(50)
+  password     String    @db.VarChar(255)
+  status       UserStatus @default(active)
+  role         UserRole   @default(user)
+  inactiveDate DateTime? @map("inactive_date")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  // 관계 설정
+  userInfo     UserInfo?
+  healthLogs   DailyHealthLog[]
+  plans        DailyPlan[]
+
+  @@map("User")
+}
+
+// 2. UserInfo (신체 정보 - 1:1 관계)
+model UserInfo {
+  userInfoId   Int       @id @default(autoincrement()) @map("userinfo_id")
+  user         User      @relation(fields: [userId], references: [userId])
+  userId       Int       @unique @map("user_id") // 1:1 관계이므로 unique 필수
+  
+  gender       Gender
+  age          Int
+  height       Float
+  weight       Float
+  goalWeight   Float?    @map("goal_weight")
+  inactiveDate DateTime? @map("inactive_date") // 로직상 Nullable이 안전하여 ? 처리
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  @@map("UserInfo")
+}
+
+// 3. Daily_Health_Logs (일일 기록)
+model DailyHealthLog {
+  logId           BigInt    @id @default(autoincrement()) @map("log_id")
+  user            User      @relation(fields: [userId], references: [userId])
+  userId          Int       @map("user_id")
+  
+  date            DateTime  @db.Date
+  height          Float?
+  weight          Float?
+  stepCount       Int?      @map("step_count")
+  sleepMinutes    Int?      @map("sleep_minutes")
+  exerciseType    String?   @map("exercise_type") @db.VarChar(20)
+  exerciseTime    Int?      @map("exercise_time")
+  conditionStatus String?   @map("condition_status") @db.VarChar(20)
+  conditionScore  Int?      @map("condition_score")
+  
+  createdAt       DateTime  @default(now()) @map("created_at")
+  updatedAt       DateTime  @updatedAt @map("updated_at")
+
+  @@map("Daily_Health_Logs")
+}
+
+// 4. Daily_Plans (플랜)
+model DailyPlan {
+  planId    BigInt   @id @default(autoincrement()) @map("plan_id")
+  user      User     @relation(fields: [userId], references: [userId])
+  userId    Int      @map("user_id")
+  
+  date      DateTime @db.Date
+  category  String?  @db.VarChar(20)
+  isChecked Boolean? @default(false) @map("is_checked")
+  content   String?  @db.VarChar(255)
+  
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+
+  @@map("Daily_Plans")
+}
+
+// Enums
+enum UserStatus {
+  active
+  deleted
+}
+
+enum UserRole {
+  user
+  admin
+}
+
+enum Gender {
+  male
+  female
+}
