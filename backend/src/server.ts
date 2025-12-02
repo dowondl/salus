@@ -1,9 +1,8 @@
-import app from "./app.js";
-import dotenv from "dotenv";
+import app from './app.js';
+import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-// BigInt JSON 직렬화 문제 해결
 (BigInt.prototype as any).toJSON = function () {
   return Number(this);
 };

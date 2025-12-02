@@ -1,7 +1,7 @@
-import express from "express";
-import cors from "cors";
-import authRoutes from "./routes/auth.routes.js";
-import healthRoutes from "./routes/health.routes.js";
+import express from 'express';
+import cors from 'cors';
+import authRoutes from './routes/auth.route.js';
+import healthRoutes from './routes/health.route.js';
 
 const app = express();
 
@@ -10,12 +10,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // 라우터 등록
-app.use("/api/auth", authRoutes);
-app.use("/api/health", healthRoutes);
+app.use('/api/auth', authRoutes);
+app.use('/api/health', healthRoutes);
 
-// base check
-app.get("/", (req, res) => {
-  res.send("Salus Backend API is running...");
+app.get('/', (req, res) => {
+  res.send('Salus Backend API is running...');
 });
 
 export default app;

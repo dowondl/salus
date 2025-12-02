@@ -4,17 +4,14 @@ generator client {
   provider = "prisma-client-js"
 }
 
-datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
-}
 
 // 1. User (계정 정보)
 model User {
   userId       Int       @id @default(autoincrement()) @map("user_id")
-  name         String    @db.VarChar(50)
-  nickname     String?   @default("nickname") @db.VarChar(50)
-  password     String    @db.VarChar(255)
+  name         String    @default("username")
+  email        String    @unique 
+  nickname     String?   @default("nickname") 
+  password     String    @default("password")
   status       UserStatus @default(active)
   role         UserRole   @default(user)
   inactiveDate DateTime? @map("inactive_date")
@@ -35,10 +32,10 @@ model UserInfo {
   user         User      @relation(fields: [userId], references: [userId])
   userId       Int       @unique @map("user_id") // 1:1 관계이므로 unique 필수
   
-  gender       Gender
-  age          Int
-  height       Float
-  weight       Float
+  gender       Gender?
+  age          Int?
+  height       Float?
+  weight       Float?
   goalWeight   Float?    @map("goal_weight")
   inactiveDate DateTime? @map("inactive_date") // 로직상 Nullable이 안전하여 ? 처리
   createdAt    DateTime  @default(now()) @map("created_at")
@@ -53,14 +50,14 @@ model DailyHealthLog {
   user            User      @relation(fields: [userId], references: [userId])
   userId          Int       @map("user_id")
   
-  date            DateTime  @db.Date
+  date            DateTime  @default(now())
   height          Float?
   weight          Float?
   stepCount       Int?      @map("step_count")
   sleepMinutes    Int?      @map("sleep_minutes")
-  exerciseType    String?   @map("exercise_type") @db.VarChar(20)
+  exerciseType    String?   @map("exercise_type") 
   exerciseTime    Int?      @map("exercise_time")
-  conditionStatus String?   @map("condition_status") @db.VarChar(20)
+  conditionStatus String?   @map("condition_status")
   conditionScore  Int?      @map("condition_score")
   
   createdAt       DateTime  @default(now()) @map("created_at")
@@ -75,10 +72,10 @@ model DailyPlan {
   user      User     @relation(fields: [userId], references: [userId])
   userId    Int      @map("user_id")
   
-  date      DateTime @db.Date
-  category  String?  @db.VarChar(20)
+  date      DateTime @default(now())
+  category  String?  
   isChecked Boolean? @default(false) @map("is_checked")
-  content   String?  @db.VarChar(255)
+  content   String?  
   
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime @updatedAt @map("updated_at")

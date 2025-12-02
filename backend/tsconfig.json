@@ -1,18 +1,19 @@
 {
   "compilerOptions": {
     "outDir": "./dist",
-    "module": "nodenext", // Node.js ESM 호환
-    "moduleResolution": "nodenext", // Node.js ESM 모듈 해석 규칙 적용
+    "rootDir": "./src",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "target": "es2022",
     "esModuleInterop": true,
     "strict": true,
     "skipLibCheck": true,
     "verbatimModuleSyntax": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "resolveJsonModule": true
   },
   "include": [
-    "src/**/*",
-    "./prisma.config.ts" // CLI 설정 파일 포함
+    "src/**/*"
   ],
   "exclude": ["node_modules"]
 }
