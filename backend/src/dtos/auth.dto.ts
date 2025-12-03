@@ -1,16 +1,23 @@
+// src/dtos/auth.dto.ts (수정)
+
 export interface SignupDto {
+  email: string; 
   name: string;
   nickname?: string;
   password: string;
-  email: string;
+  gender: 'male' | 'female';
+  age: number;
+  height: number;
+  weight: number;
+  goalWeight?: number;
 }
 
 export interface LoginDto {
-  email: string;
+  email: string; 
   password: string;
 }
 
 export interface TokenPayload {
   userId: number;
-  role: "user" | "admin";
+  role: 'user' | 'admin';
 }

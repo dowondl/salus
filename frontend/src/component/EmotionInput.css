@@ -1,0 +1,86 @@
+.emotion-input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+    text-align: center;
+}
+
+.emotion-input-container h2 {
+    font-size: 37px;
+    margin-top: 0;
+    margin-bottom: 40px;
+    color: #000000;
+}
+
+.emotion-options {
+    display: flex;
+    flex-wrap: wrap; 
+    justify-content: center;
+    width: 100%;
+    max-width: 900px; 
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.emotion-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+
+    width: 20%; 
+    padding: 10px 5px;
+    margin-bottom: 20px; 
+}
+
+
+.emotion-option .emoji {
+    font-size: 40px; 
+    margin-bottom: 5px;
+    transition: transform 0.2s;
+}
+
+.emotion-option:hover .emoji {
+    transform: scale(1.1); 
+}
+
+
+.emotion-option .label {
+    font-size: 15px;
+    color: #555;
+    white-space: normal; 
+    text-align: center;
+}
+
+.next-button {
+    background-color: #298fee; 
+    color: white;
+    width: 500px;
+    height: 53px; 
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 25px;
+    font-weight: bold;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s;
+}
+
+.next-button:hover {
+    background-color: #3b78e8;
+}
+
+
+.emotion-option.selected .emoji {
+    transform: scale(1.1); 
+}
+
+
+.emotion-option.selected .label {
+    font-weight: 1000;
+    color: #4285F4;
+}
